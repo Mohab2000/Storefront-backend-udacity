@@ -8,8 +8,8 @@ const getAllProducts = async (req: Request, res: Response) => {
   res.json(products);
 };
 const showProductById = async (req: Request, res: Response) => {
-  const weapon = await product.showProductById(req.params.id);
-  res.json(weapon);
+  const productById = await product.showProductById(req.params.id);
+  res.json(productById);
 };
 
 const createProduct = async (req: Request, res: Response) => {
