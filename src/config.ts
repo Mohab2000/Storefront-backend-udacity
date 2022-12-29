@@ -1,4 +1,5 @@
-import dotenv from "dotenv";
+import dotenv, { config } from "dotenv";
+import { Pool } from "pg";
 dotenv.config();
 const {
   PORT,
@@ -10,12 +11,18 @@ const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
 } = process.env;
-dotenv.config();
-export default {
-  port: PORT,
+// export default {
+//   port: PORT,
+// };
+const pool = new Pool({
   host: POSTGRES_HOST,
-  dbPort: POSTGRES_PORT,
   database: NODE_ENV === "dev" ? POSTGRES_DB : POSTGRES_DB_TEST,
   user: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
-};
+  // port: parseInt(PORT as string, 10),
+});
+
+pool.on("error", (error: Error) => {
+  console.error(`Database Error: ${error.message}`);
+});
+export default pool;
