@@ -20,7 +20,7 @@ const createUser = async (req: Request, res: Response) => {
       lastname: req.body.lastname,
       password: req.body.password,
     };
-    const createdUser = await user.createProduct(newUser);
+    const createdUser = await user.createUser(newUser);
     res.json(createdUser);
   } catch (err) {
     res.json(`Could not create user ${err} `);

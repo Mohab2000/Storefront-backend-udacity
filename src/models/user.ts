@@ -28,7 +28,7 @@ export class Users {
       throw new Error(`Cannot get user with this id ${err}`);
     }
   }
-  async createProduct(user: User): Promise<User> {
+  async createUser(user: User): Promise<User> {
     try {
       const conn = await Client.connect();
       const sql =
