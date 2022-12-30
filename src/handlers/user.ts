@@ -18,9 +18,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 const updateUserById = async (req: Request, res: Response) => {
   try {
     const updateUser: User = {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      password: req.body.password,
+      ...req.body,
     };
     try {
       jwt.verify(req.body.token, process.env.JWT!);
@@ -52,9 +50,7 @@ const showUserById = async (req: Request, res: Response) => {
 const createUser = async (req: Request, res: Response) => {
   try {
     const newUser: User = {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      password: req.body.password,
+      ...req.body,
     };
 
     const createdUser = await user.createUser(newUser);

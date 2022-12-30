@@ -5,6 +5,7 @@ import { InferencePriority } from "typescript";
 import { Connection } from "pg";
 export type User = {
   id?: string;
+  email: string;
   firstname: string;
   lastname: string;
   password: string;
@@ -25,7 +26,7 @@ export class Users {
     try {
       const conn = await Client.connect();
       const sql =
-        "UPDATE users SET firstname = ($1) , lastname= ($2) , password= ($3) WHERE id=($4) RETURNING *";
+        "UPDATE users SET email = ($1) , firstname = ($2) , lastname= ($3) , password= ($4) WHERE id=($5) RETURNING *";
       const result = await conn.query(sql, [
         updatedUser.firstname,
         updatedUser.lastname,
@@ -56,8 +57,9 @@ export class Users {
     try {
       const conn = await Client.connect();
       const sql =
-        "INSERT INTO users (firstname, lastname, password) VALUES($1, $2 , $3) RETURNING *";
+        "INSERT INTO users (email , firstname, lastname, password) VALUES($1, $2 , $3 , $4) RETURNING *";
       const result = await conn.query(sql, [
+        user.email,
         user.firstname,
         user.lastname,
         bcrypt.hashSync(
