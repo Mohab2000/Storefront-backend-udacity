@@ -11,6 +11,21 @@ const showProductById = async (req: Request, res: Response) => {
   const productById = await product.showProductById(req.params.id);
   res.json(productById);
 };
+const updateProductById = async (req: Request, res: Response) => {
+  try {
+    const updateProduct: Product = {
+      name: req.body.name,
+      price: req.body.price,
+    };
+    const updatedProduct = await product.updateProductById(
+      updateProduct,
+      req.params.id
+    );
+    res.json(updatedProduct);
+  } catch (err) {
+    res.json(`Could not update product ${err} `);
+  }
+};
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -32,6 +47,7 @@ const deletedProductById = async (req: Request, res: Response) => {
 const productRoutes = (app: express.Application) => {
   app.get("/products", getAllProducts);
   app.get("/products/:id", showProductById);
+  app.put("/products/:id", updateProductById);
   app.post("/products", createProduct);
   app.delete("/products/:id", deletedProductById);
 };

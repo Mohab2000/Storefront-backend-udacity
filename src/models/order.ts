@@ -16,6 +16,22 @@ export class Orders {
       throw new Error(`Cannot get orders ${err}`);
     }
   }
+  async updateOrderById(updatedOrder: Order, id: string): Promise<Order> {
+    try {
+      const conn = await Client.connect();
+      const sql =
+        "UPDATE orders SET status = ($1) , user_id = ($2) WHERE id=($3) RETURNING *";
+      const result = await conn.query(sql, [
+        updatedOrder.status,
+        updatedOrder.userId,
+        id,
+      ]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not update user ${err}`);
+    }
+  }
   async showOrderById(id: string): Promise<Order> {
     try {
       const conn = await Client.connect();

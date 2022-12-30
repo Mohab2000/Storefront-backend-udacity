@@ -13,6 +13,22 @@ const showOrderedProductById = async (req: Request, res: Response) => {
   );
   res.json(orderedProducts);
 };
+const updateOrderedProductById = async (req: Request, res: Response) => {
+  try {
+    const updateOrderedProduct: OrderedProduct = {
+      orderId: req.body.orderId,
+      productId: req.body.productId,
+      quantity: req.body.quantity,
+    };
+    const updatedOrderedProduct = await orderedproduct.updateOrderdProductById(
+      updateOrderedProduct,
+      req.params.id
+    );
+    res.json(updatedOrderedProduct);
+  } catch (err) {
+    res.json(`Could not update ordered product ${err} `);
+  }
+};
 
 const createOrderedProduct = async (req: Request, res: Response) => {
   try {
@@ -36,6 +52,7 @@ const deleteOrderedProductById = async (req: Request, res: Response) => {
 const orderedProductRoutes = (app: express.Application) => {
   app.get("/ordered/product", getAllOrderedProducts);
   app.get("/ordered/product/:id", showOrderedProductById);
+  app.put("/ordered/product/:id", updateOrderedProductById);
   app.post("/ordered/product", createOrderedProduct);
   app.delete("/ordered/product/:id", deleteOrderedProductById);
 };

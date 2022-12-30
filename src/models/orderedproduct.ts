@@ -28,6 +28,26 @@ export class OrderedProducts {
       throw new Error(`Cannot get ordered product with id ${id} ${err}`);
     }
   }
+  async updateOrderdProductById(
+    updatedOrderedProduct: OrderedProduct,
+    id: string
+  ): Promise<OrderedProduct> {
+    try {
+      const conn = await Client.connect();
+      const sql =
+        "UPDATE products_orders SET order_id = ($1) , product_id = ($2) , quantity = ($3) WHERE id=($4) RETURNING *";
+      const result = await conn.query(sql, [
+        updatedOrderedProduct.orderId,
+        updatedOrderedProduct.productId,
+        updatedOrderedProduct.quantity,
+        id,
+      ]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not update user ${err}`);
+    }
+  }
   async createOrderedProduct(
     orderdProduct: OrderedProduct
   ): Promise<OrderedProduct> {

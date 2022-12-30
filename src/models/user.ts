@@ -17,6 +17,23 @@ export class Users {
       throw new Error(`Cannot get users ${err}`);
     }
   }
+  async updateUserById(updatedUser: User, id: string): Promise<User> {
+    try {
+      const conn = await Client.connect();
+      const sql =
+        "UPDATE users SET firstname = ($1) , lastname= ($2) , password= ($3) WHERE id=($4) RETURNING *";
+      const result = await conn.query(sql, [
+        updatedUser.firstname,
+        updatedUser.lastname,
+        updatedUser.password,
+        id,
+      ]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not update user ${err}`);
+    }
+  }
   async getUserById(id: string): Promise<User> {
     try {
       const conn = await Client.connect();

@@ -11,6 +11,22 @@ const showOrderById = async (req: Request, res: Response) => {
   const orderById = await order.showOrderById(req.params.id);
   res.json(orderById);
 };
+
+const updateOrderById = async (req: Request, res: Response) => {
+  try {
+    const updateOrder: Order = {
+      status: req.body.status,
+      userId: req.body.userId,
+    };
+    const updatedOrder = await order.updateOrderById(
+      updateOrder,
+      req.params.id
+    );
+    res.json(updatedOrder);
+  } catch (err) {
+    res.json(`Could not update order ${err} `);
+  }
+};
 const createOrder = async (req: Request, res: Response) => {
   try {
     const newOrder: Order = {
@@ -30,6 +46,7 @@ const deleteOrderById = async (req: Request, res: Response) => {
 const orderRoutes = (app: express.Application) => {
   app.get("/orders", getAllOrders);
   app.get("/orders/:id", showOrderById);
+  app.put("/orders/:id", updateOrderById);
   app.post("/orders", createOrder);
   app.delete("/orders/:id", deleteOrderById);
 };

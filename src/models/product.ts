@@ -16,6 +16,25 @@ export class Products {
       throw new Error(`Cannot get products ${err}`);
     }
   }
+  async updateProductById(
+    updatedProduct: Product,
+    id: string
+  ): Promise<Product> {
+    try {
+      const conn = await Client.connect();
+      const sql =
+        "UPDATE products SET name = ($1) , price = ($2) WHERE id=($3) RETURNING *";
+      const result = await conn.query(sql, [
+        updatedProduct.name,
+        updatedProduct.price,
+        id,
+      ]);
+      conn.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Could not update user ${err}`);
+    }
+  }
   async showProductById(id: string): Promise<Product> {
     try {
       const conn = await Client.connect();
