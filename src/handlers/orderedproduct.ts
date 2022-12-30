@@ -17,8 +17,8 @@ const showOrderedProductById = async (req: Request, res: Response) => {
 const createOrderedProduct = async (req: Request, res: Response) => {
   try {
     const newOrderedProduct: OrderedProduct = {
-      orderId: req.body.id,
-      productId: req.body.product_id,
+      orderId: req.body.orderId,
+      productId: req.body.productId,
       quantity: req.body.quantity,
     };
     const createdOrderedProduct = await orderedproduct.createOrderedProduct(
@@ -37,6 +37,6 @@ const orderedProductRoutes = (app: express.Application) => {
   app.get("/ordered/product", getAllOrderedProducts);
   app.get("/ordered/product/:id", showOrderedProductById);
   app.post("/ordered/product", createOrderedProduct);
-  app.delete("/ordered/product:id", deleteOrderedProductById);
+  app.delete("/ordered/product/:id", deleteOrderedProductById);
 };
 export default orderedProductRoutes;

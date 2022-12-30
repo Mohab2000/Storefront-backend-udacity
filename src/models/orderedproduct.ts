@@ -34,7 +34,7 @@ export class OrderedProducts {
     try {
       const conn = await Client.connect();
       const sql =
-        "INSERT INTO products_orders (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING *";
+        "INSERT INTO products_orders (order_id,product_id, quantity) VALUES($1, $2, $3) RETURNING *";
       const result = await conn.query(sql, [
         orderdProduct.orderId,
         orderdProduct.productId,
