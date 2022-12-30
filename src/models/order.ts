@@ -37,7 +37,7 @@ export class Orders {
       const conn = await Client.connect();
       const sql = "SELECT * from orders WHERE id=($1)";
       const result = await conn.query(sql, [id]);
-      conn.release;
+      conn.release();
       return result.rows[0];
     } catch (err) {
       throw new Error(`Cannot get orders with this id ${err}`);
