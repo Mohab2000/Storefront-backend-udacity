@@ -15,7 +15,7 @@ describe("Test user endpoints", () => {
     expect(res.status).toBeTrue;
   });
   it("Delete user", async () => {
-    const res = await request.delete(`/user/2`); //assuming that there is ID 2 in products database
+    const res = await request.delete("/user/2"); //assuming that there is ID 2 in products database
     expect(res.status).toBeTrue;
   });
   it("Update user", async () => {
