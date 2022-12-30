@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { Order, Orders } from "../models/order";
-
+import jwt from "jsonwebtoken";
 const order = new Orders();
 
 const getAllOrders = async (req: Request, res: Response) => {
@@ -33,6 +33,14 @@ const createOrder = async (req: Request, res: Response) => {
       status: req.body.status,
       userId: req.body.userId,
     };
+    try {
+      jwt.verify(req.body.token, process.env.JWT!);
+    } catch (err) {
+      res.status(401);
+      res.json("Invalid token");
+      return;
+    }
+
     const createdOrder = await order.createOrder(newOrder);
     res.json(createdOrder);
   } catch (err) {

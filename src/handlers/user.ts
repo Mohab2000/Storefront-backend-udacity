@@ -15,6 +15,7 @@ const updateUserById = async (req: Request, res: Response) => {
       lastname: req.body.lastname,
       password: req.body.password,
     };
+
     const updatedUser = await user.updateUserById(updateUser, req.params.id);
     res.json(updatedUser);
   } catch (err) {
@@ -35,7 +36,8 @@ const createUser = async (req: Request, res: Response) => {
       password: req.body.password,
     };
     const createdUser = await user.createUser(newUser);
-    res.json(createdUser);
+    var token = jwt.sign({ newUser: createdUser }, process.env.JWT!);
+    res.json(token);
   } catch (err) {
     res.json(`Could not create user ${err} `);
   }
