@@ -18,6 +18,13 @@ const updateOrderById = async (req: Request, res: Response) => {
       status: req.body.status,
       userId: req.body.userId,
     };
+    try {
+      jwt.verify(req.body.token, process.env.JWT!);
+    } catch (err) {
+      res.status(401);
+      res.json("Invalid token");
+      return;
+    }
     const updatedOrder = await order.updateOrderById(
       updateOrder,
       req.params.id
