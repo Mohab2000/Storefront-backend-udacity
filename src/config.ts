@@ -1,4 +1,4 @@
-import dotenv, { config } from "dotenv";
+import dotenv from "dotenv";
 import { Pool } from "pg";
 dotenv.config();
 const {

@@ -1,4 +1,6 @@
 import Client from "../config";
+import bcrypt from "bcrypt";
+import config from "../bcrypt";
 export type User = {
   id?: string;
   firstname: string;
@@ -25,7 +27,10 @@ export class Users {
       const result = await conn.query(sql, [
         updatedUser.firstname,
         updatedUser.lastname,
-        updatedUser.password,
+        bcrypt.hashSync(
+          `${updatedUser.password}${config.pepper}`,
+          parseInt(config.salt as string, 10)
+        ),
         id,
       ]);
       conn.release();
@@ -53,7 +58,10 @@ export class Users {
       const result = await conn.query(sql, [
         user.firstname,
         user.lastname,
-        user.password,
+        bcrypt.hashSync(
+          `${user.password}${config.pepper}`,
+          parseInt(config.salt as string, 10)
+        ),
       ]);
       conn.release();
       return result.rows[0];
