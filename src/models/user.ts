@@ -1,8 +1,6 @@
 import Client from "../config";
 import bcrypt from "bcrypt";
 import config from "../bcrypt";
-import { InferencePriority } from "typescript";
-import { Connection } from "pg";
 export type User = {
   id?: string;
   email: string;
