@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { User, Users } from "../models/user";
-
+import jwt from "jsonwebtoken";
+import config from "../bcrypt";
 const user = new Users();
 
 const getAllUsers = async (req: Request, res: Response) => {
@@ -44,11 +45,30 @@ const deleteUserById = async (req: Request, res: Response) => {
   res.json(deleted);
 };
 
+const authenticateUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.body.id;
+    const password = req.body.password;
+    const authenticatedUser = await user.authenticateUser(id, password);
+    const webToken = jwt.sign(
+      { authenticatedUser },
+      config.jsonWebToken as unknown as string
+    );
+    if (!authenticatedUser) {
+      res.json("Unauthenticated user");
+    }
+    res.json({ ...authenticatedUser, webToken });
+  } catch (err) {
+    res.json(` ${err} `);
+  }
+};
+
 const userRoutes = (app: express.Application) => {
   app.get("/users", getAllUsers);
   app.get("/users/:id", showUserById);
   app.post("/users", createUser);
   app.put("/users/:id", updateUserById);
   app.delete("/users/:id", deleteUserById);
+  app.post("/users/authenticate", authenticateUser);
 };
 export default userRoutes;

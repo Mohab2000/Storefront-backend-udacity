@@ -1,6 +1,8 @@
 import Client from "../config";
 import bcrypt from "bcrypt";
 import config from "../bcrypt";
+import { InferencePriority } from "typescript";
+import { Connection } from "pg";
 export type User = {
   id?: string;
   firstname: string;
@@ -79,6 +81,37 @@ export class Users {
       return user;
     } catch (err) {
       throw new Error(`Could not delete user with id: ${id}. ${err} `);
+    }
+  }
+  async authenticateUser(id: string, password: string): Promise<User | null> {
+    try {
+      const conn = await Client.connect();
+      const sql = "SELECT password from users where id=($1)";
+      const result = await conn.query(sql, [id]);
+      if (result.rows.length) {
+        const { password: hashedPassword } = result.rows[0];
+        const passwordValid = bcrypt.compareSync(
+          `${password}${config.pepper}`,
+          hashedPassword
+        );
+        if (!passwordValid) {
+          conn.release();
+          return null;
+        }
+        {
+          // console.log(
+          //   `Hashed Password : ${hashedPassword} password ${password}${config.pepper}`
+          // );
+          const query =
+            "SELECT firstname , lastname , password FROM users WHERE id=($1)";
+          const info = await conn.query(query, [id]);
+          return info.rows[0];
+        }
+      }
+      conn.release();
+      return null;
+    } catch (error) {
+      throw new Error(`Unable to login, unauthenticated user.`);
     }
   }
 }
