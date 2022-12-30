@@ -6,6 +6,13 @@ const user = new Users();
 
 const getAllUsers = async (req: Request, res: Response) => {
   const users = await user.getAllUsers();
+  try {
+    jwt.verify(req.body.token, process.env.JWT!);
+  } catch (err) {
+    res.status(401);
+    res.json("Invalid token");
+    return;
+  }
   res.json(users);
 };
 const updateUserById = async (req: Request, res: Response) => {
@@ -15,6 +22,13 @@ const updateUserById = async (req: Request, res: Response) => {
       lastname: req.body.lastname,
       password: req.body.password,
     };
+    try {
+      jwt.verify(req.body.token, process.env.JWT!);
+    } catch (err) {
+      res.status(401);
+      res.json("Invalid token");
+      return;
+    }
 
     const updatedUser = await user.updateUserById(updateUser, req.params.id);
     res.json(updatedUser);
@@ -24,6 +38,13 @@ const updateUserById = async (req: Request, res: Response) => {
 };
 
 const showUserById = async (req: Request, res: Response) => {
+  try {
+    jwt.verify(req.body.token, process.env.JWT!);
+  } catch (err) {
+    res.status(401);
+    res.json("Invalid token");
+    return;
+  }
   const userById = await user.getUserById(req.params.id);
   res.json(userById);
 };
@@ -35,6 +56,7 @@ const createUser = async (req: Request, res: Response) => {
       lastname: req.body.lastname,
       password: req.body.password,
     };
+
     const createdUser = await user.createUser(newUser);
     var token = jwt.sign({ newUser: createdUser }, process.env.JWT!);
     res.json(token);

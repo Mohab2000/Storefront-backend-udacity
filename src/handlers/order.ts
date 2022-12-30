@@ -8,6 +8,13 @@ const getAllOrders = async (req: Request, res: Response) => {
   res.json(orders);
 };
 const showOrderById = async (req: Request, res: Response) => {
+  try {
+    jwt.verify(req.body.token, process.env.JWT!);
+  } catch (err) {
+    res.status(401);
+    res.json("Invalid token");
+    return;
+  }
   const orderById = await order.showOrderById(req.params.id);
   res.json(orderById);
 };
