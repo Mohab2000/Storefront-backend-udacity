@@ -11,7 +11,7 @@ const address: string = "0.0.0.0:3000";
 app.use(bodyParser.json());
 
 app.get("/", function (req: Request, res: Response) {
-  res.send("Home Page!");
+  res.send("Home Page.");
 });
 productRoutes(app);
 userRoutes(app);
