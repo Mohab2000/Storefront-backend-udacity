@@ -50,3 +50,30 @@ JWT= JSON-WEB-TOKEN
 "password": { "ENV": "POSTGRES_PASSWORD" }
 }
 }
+
+## Ports
+
+Application running on port 3000, database port on 5432
+
+## API EndPoints
+
+# User
+
+http://localhost:3000/users [GET-POST]
+http://localhost:3000/users/authenticate [AUTHENTICATION]
+http://localhost:3000/users/:id [UPDATEBYID-SHOWBYID-DELETE]
+
+# Products
+
+http://localhost:3000/products [GET-POST]
+http://localhost:3000/products/:id [UPDATEBYID-SHOWBYID-DELETE]
+
+# Orders
+
+http://localhost:3000/orders [GET-POST]
+http://localhost:3000/orders/:id [UPDATEBYID-SHOWBYID-DELETE]
+
+# Ordered Products
+
+http://localhost:3000/ordered/product [GET-POST]
+http://localhost:3000/ordered/product/:id [UPDATEBYID-SHOWBYID-DELETE]
