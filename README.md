@@ -58,22 +58,23 @@ Application running on port 3000, database port on 5432
 ## API EndPoints
 
 # User
-
+```
 http://localhost:3000/users [GET-POST]
 http://localhost:3000/users/authenticate [AUTHENTICATION]
 http://localhost:3000/users/:id [PUT-SHOW-DELETE]
-
+```
 # Products
-
+```
 http://localhost:3000/products [GET-POST]
 http://localhost:3000/products/:id [PUT-SHOW-DELETE]
-
+```
 # Orders
-
+```
 http://localhost:3000/orders [GET-POST]
 http://localhost:3000/orders/:id [PUT-SHOW-DELETE]
-
+```
 # Ordered Products
-
+```
 http://localhost:3000/ordered/product [GET-POST]
 http://localhost:3000/ordered/product/:id [PUT-SHOW-DELETE]
+```
