@@ -30,7 +30,7 @@ JWT= JSON-WEB-TOKEN
 # db-migrate down : to drop the database
 
 ## database.json file
-
+```
 {
 "defaultEnv": { "ENV": "NODE_ENV" },
 "dev": {
@@ -50,7 +50,7 @@ JWT= JSON-WEB-TOKEN
 "password": { "ENV": "POSTGRES_PASSWORD" }
 }
 }
-
+```
 ## Ports
 
 Application running on port 3000, database port on 5432
