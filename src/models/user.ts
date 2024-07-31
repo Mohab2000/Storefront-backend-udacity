@@ -26,6 +26,7 @@ export class Users {
       const sql =
         "UPDATE users SET email = ($1) , firstname = ($2) , lastname= ($3) , password= ($4) WHERE id=($5) RETURNING *";
       const result = await conn.query(sql, [
+        updatedUser.email,
         updatedUser.firstname,
         updatedUser.lastname,
         bcrypt.hashSync(
